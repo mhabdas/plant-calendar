@@ -6,8 +6,8 @@ import AuthForm from './authForm';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3FAEE',
     marginTop: 50,
+    backgroundColor: '#F3FAEE',
   },
   loading: {
     flex: 1,
