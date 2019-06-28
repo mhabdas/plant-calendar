@@ -1,33 +1,42 @@
 import React from 'react';
 
 import {
-    createStackNavigator,
-    createBottomTabNavigator,
-    createAppContainer,
-    createSwitchNavigator } from "react-navigation";
+  createStackNavigator,
+  createBottomTabNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+} from 'react-navigation';
 
-import SignIn from './components/auth'
-import Calendar from './components/calendar'
-import Dashboard from './components/dashboard'
-import Tasks from './components/tasks'
+import SignIn from './components/auth';
+import Calendar from './components/calendar';
+import Dashboard from './components/dashboard';
+import Tasks from './components/tasks';
 
 const AppStack = createBottomTabNavigator({
-    Dashboard,
-    Calendar,
-    Tasks,
+  Dashboard,
+  Calendar,
+  Tasks,
 });
 
-const AuthStack = createStackNavigator({
-    SignIn: SignIn,
-}, {
+const AuthStack = createStackNavigator(
+  {
+    SignIn,
+  },
+  {
     headerMode: 'none',
-});
+  }
+);
 
-export const RootNavigator = (isAuth) => {
-    return createAppContainer(createSwitchNavigator({
+export const RootNavigator = isAuth => {
+  return createAppContainer(
+    createSwitchNavigator(
+      {
         App: AppStack,
         Auth: AuthStack,
-    }, {
-        initialRouteName:isAuth ? 'App' : 'Auth',
-    }))
+      },
+      {
+        initialRouteName: isAuth ? 'App' : 'Auth',
+      }
+    )
+  );
 };

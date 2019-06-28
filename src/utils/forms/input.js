@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, Picker } from 'react-native';
+import React from 'react';
+import { TextInput, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   input: {
@@ -7,12 +7,11 @@ const styles = StyleSheet.create({
     color: '#244f44',
     fontFamily: 'Open Sans',
     fontSize: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     padding: 10,
+    paddingLeft: 20,
     marginTop: 10,
-    borderColor: '#244f44',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    borderRadius: 30,
   },
 });
 

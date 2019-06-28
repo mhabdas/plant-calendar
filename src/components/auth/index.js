@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
 import LogoComponent from './authLogo';
 import AuthForm from './authForm';
 
@@ -7,7 +8,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50,
-    backgroundColor: '#F3FAEE',
+    backgroundColor: '#e1f7d2',
   },
   loading: {
     flex: 1,
@@ -22,6 +23,9 @@ export default class AuthComponent extends Component {
 
   render() {
     const { loading } = this.state;
+    const {
+      navigation: { navigate },
+    } = this.props;
     if (loading) {
       return (
         <View style={styles.loading}>
@@ -32,8 +36,14 @@ export default class AuthComponent extends Component {
     return (
       <ScrollView style={styles.container}>
         <LogoComponent />
-        <AuthForm />
+        <AuthForm navigate={navigate} />
       </ScrollView>
     );
   }
 }
+
+AuthComponent.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
