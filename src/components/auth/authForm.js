@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Input from '../../utils/forms/input';
+import ValidationRules from '../../utils/forms/validationRules';
 
 const styles = StyleSheet.create({
   form: {
@@ -92,6 +93,12 @@ class AuthForm extends Component {
     const formCopy = form;
     formCopy[name].value = value;
 
+    const { rules } = formCopy[name];
+
+    formCopy[name].valid = ValidationRules(value, rules, formCopy);
+
+    console.log(formCopy[name].valid);
+
     this.setState({
       form: formCopy,
     });
@@ -100,7 +107,7 @@ class AuthForm extends Component {
   confirmPassword = () => {
     const {
       form: {
-        email: { type, value },
+        confirmedPassword: { type, value },
       },
     } = this.state;
     return type !== 'Login' ? (
@@ -144,9 +151,7 @@ class AuthForm extends Component {
 
   render() {
     const {
-      form: {
-        email: { type, value },
-      },
+      form: { email, password },
       action,
       actionMode,
     } = this.state;
@@ -157,19 +162,18 @@ class AuthForm extends Component {
           placeholder="Enter e-mail"
           placeholderTextColor="black"
           autoCapitalize="none"
-          type={type}
-          value={value}
+          type={email.type}
+          value={email.value}
           keyboardType="email-address"
-          onChange={input => this.updateInput('email', input)}
+          onChange={input => this.updateInput('email', input.nativeEvent.text)}
         />
         <Input
           placeholder="Enter password"
           placeholderTextColor="black"
           autoCapitalize="none"
-          type={type}
-          value={value}
-          keyboardType="email-address"
-          onChange={input => this.updateInput('password', input)}
+          type={password.type}
+          value={password.value}
+          onChange={input => this.updateInput('password', input.nativeEvent.text)}
           secureTextEntry
         />
         {this.confirmPassword()}
