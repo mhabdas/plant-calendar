@@ -68,7 +68,7 @@ class AuthForm extends Component {
         valid: false,
         type: 'textinput',
         rules: {
-          confirmPass: true,
+          isRequired: true,
           minLength: 6,
         },
       },
@@ -118,7 +118,7 @@ class AuthForm extends Component {
         type={type}
         value={value}
         keyboardType="email-address"
-        onChange={input => this.updateInput('confirmedPassword', input)}
+        onChange={input => this.updateInput('confirmedPassword', input.nativeEvent.text)}
         secureTextEntry
       />
     ) : null;

@@ -7,6 +7,18 @@ const validateEmail = email => {
   return emailRegex.test(String(email).toLocaleLowerCase());
 };
 
+const validateMinLength = (value, ruleVal) => {
+  return value.length >= ruleVal;
+};
+
+const validateMaxLength = (value, ruleVal) => {
+  return value.length <= ruleVal;
+};
+
+const validateConfirmPass = (value, passValue) => {
+  return value === passValue;
+};
+
 const validation = (value, rules, form) => {
   let valid = true;
 
@@ -17,6 +29,15 @@ const validation = (value, rules, form) => {
         break;
       case 'isEmail':
         valid = valid && validateEmail(value);
+        break;
+      case 'minLength':
+        valid = valid && validateMinLength(value, rules[rule]);
+        break;
+      case 'maxLength':
+        valid = valid && validateMaxLength(value, rules[rule]);
+        break;
+      case 'confirmPass':
+        valid = valid && validateConfirmPass(value, form[rules.confirmPass].value);
         break;
       default:
         valid = true;
