@@ -10,12 +10,15 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorContainer: {
-    color: 'white',
     padding: 10,
     marginTop: 10,
+    borderRadius: 30,
     backgroundColor: '#FC4458',
+  },
+  errorText: {
     fontFamily: 'Open Sans',
     fontSize: 15,
+    color: 'white',
   },
   button: {
     marginBottom: 10,
@@ -97,8 +100,6 @@ class AuthForm extends Component {
 
     formCopy[name].valid = ValidationRules(value, rules, formCopy);
 
-    console.log(formCopy[name].valid);
-
     this.setState({
       form: formCopy,
     });
@@ -106,41 +107,37 @@ class AuthForm extends Component {
 
   confirmPassword = () => {
     const {
-      form: {
-        confirmedPassword: { type, value },
-      },
+      form: { confirmedPassword },
     } = this.state;
-    return type !== 'Login' ? (
+    return (
       <Input
         placeholder="Confirm password"
-        placeholderTextColor="black"
         autoCapitalize="none"
-        type={type}
-        value={value}
+        type={confirmedPassword.type}
+        value={confirmedPassword.value}
         keyboardType="email-address"
         onChange={input => this.updateInput('confirmedPassword', input.nativeEvent.text)}
         secureTextEntry
       />
-    ) : null;
+    );
   };
 
   formHasErrors = () => {
     const { hasErrors } = this.state;
     return hasErrors ? (
-      <View>
-        <Text style={styles.errorContainer}>Oops, something wasn&apos;t right...</Text>
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Oops, something wasn&apos;t right...</Text>
       </View>
     ) : null;
   };
 
   changeFormType = () => {
-    const { type, form } = this.state;
-    const formCopy = form;
-    formCopy.type = type === 'Login' ? 'Register' : 'Login';
-    formCopy.action = type === 'Sign in' ? 'Sign up' : 'Sign in';
-    formCopy.actionMode = type === 'Sign in' ? 'Sign in' : 'Sign up';
+    const { type } = this.state;
+    const typeCopy = type;
     this.setState({
-      form: formCopy,
+      type: typeCopy === 'Login' ? 'Register' : 'Login',
+      action: typeCopy === 'Sign in' ? 'Sign in' : 'Sign up',
+      actionMode: typeCopy === 'Sign in' ? 'Sign up' : 'Sign in',
     });
   };
 
@@ -149,18 +146,46 @@ class AuthForm extends Component {
     navigate('App');
   };
 
+  submitUser = () => {
+    let isFormValid = true;
+    const formToSubmit = {};
+
+    const { type, form } = this.state;
+
+    const formCopy = form;
+
+    Object.keys(formCopy).forEach(key => {
+      if (type === 'Login') {
+        if (key !== 'confirmedPassword') {
+          isFormValid = isFormValid && formCopy[key].valid;
+          formToSubmit[key] = formCopy[key].value;
+        }
+      } else {
+        isFormValid = isFormValid && formCopy[key].valid;
+        formToSubmit[key] = formCopy[key].value;
+      }
+    });
+
+    if (isFormValid) {
+      return type === 'Login' ? console.log(formToSubmit) : console.log(formToSubmit);
+    }
+    return this.setState({
+      hasErrors: true,
+    });
+  };
+
   render() {
     const {
       form: { email, password },
       action,
       actionMode,
+      type,
     } = this.state;
 
     return (
       <View style={styles.form}>
         <Input
           placeholder="Enter e-mail"
-          placeholderTextColor="black"
           autoCapitalize="none"
           type={email.type}
           value={email.value}
@@ -169,19 +194,18 @@ class AuthForm extends Component {
         />
         <Input
           placeholder="Enter password"
-          placeholderTextColor="black"
           autoCapitalize="none"
           type={password.type}
           value={password.value}
           onChange={input => this.updateInput('password', input.nativeEvent.text)}
           secureTextEntry
         />
-        {this.confirmPassword()}
+        {type !== 'Login' && this.confirmPassword()}
         {this.formHasErrors()}
         <View style={{ marginTop: 20 }}>
           <TouchableOpacity
             style={[styles.button, styles.buttonSignIn]}
-            onPress={() => this.goNext()}
+            onPress={() => this.submitUser()}
           >
             <Text style={[styles.buttonText, styles.buttonTextSignIn]}>{action.toUpperCase()}</Text>
           </TouchableOpacity>
@@ -189,7 +213,7 @@ class AuthForm extends Component {
         <View>
           <TouchableOpacity
             style={[styles.button, styles.buttonSignUp]}
-            onPress={() => this.changeFormType()}
+            onPress={this.changeFormType}
           >
             <Text style={[styles.buttonText, styles.buttonTextSignUp]}>
               {actionMode.toUpperCase()}
