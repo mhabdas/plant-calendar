@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { signIn, signUp } from '../../store/actions/userActions';
 import Input from '../../utils/forms/input';
 import ValidationRules from '../../utils/forms/validationRules';
 
@@ -152,6 +155,8 @@ class AuthForm extends Component {
 
     const { type, form } = this.state;
 
+    const { signInDispatch, signUpDispatch } = this.props;
+
     const formCopy = form;
 
     Object.keys(formCopy).forEach(key => {
@@ -167,7 +172,7 @@ class AuthForm extends Component {
     });
 
     if (isFormValid) {
-      return type === 'Login' ? console.log(formToSubmit) : console.log(formToSubmit);
+      return type === 'Login' ? signInDispatch(formToSubmit) : signUpDispatch(formToSubmit);
     }
     return this.setState({
       hasErrors: true,
@@ -181,6 +186,8 @@ class AuthForm extends Component {
       actionMode,
       type,
     } = this.state;
+
+    console.log(this.props.user);
 
     return (
       <View style={styles.form}>
@@ -229,4 +236,20 @@ AuthForm.propTypes = {
   navigate: PropTypes.func.isRequired,
 };
 
-export default AuthForm;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signInDispatch: form => dispatch(signIn(form)),
+    signUpDispatch: form => dispatch(signUp(form)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthForm);
