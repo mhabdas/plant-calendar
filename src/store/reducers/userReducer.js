@@ -6,16 +6,18 @@ export default function(state = {}, action) {
       return {
         ...state,
         auth: {
-          email: action.payload.email || false,
-          token: action.payload.token || false,
+          uid: action.payload.localID || false,
+          token: action.payload.idToken || false,
+          refToken: action.payload.refreshToken || false,
         },
       };
     case SIGN_UP:
       return {
         ...state,
         auth: {
-          email: action.payload.email || false,
-          token: action.payload.token || false,
+          uid: action.payload ? action.payload.localID : false,
+          token: action.payload ? action.payload.idToken : false,
+          refToken: action.payload ? action.payload.refreshToken : false,
         },
       };
     default:
