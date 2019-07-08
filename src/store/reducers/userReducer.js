@@ -9,15 +9,17 @@ export default function(state = {}, action) {
           uid: action.payload.localID || false,
           token: action.payload.idToken || false,
           refToken: action.payload.refreshToken || false,
+          error: action.payload.message || false,
         },
       };
     case SIGN_UP:
       return {
         ...state,
         auth: {
-          uid: action.payload ? action.payload.localID : false,
-          token: action.payload ? action.payload.idToken : false,
-          refToken: action.payload ? action.payload.refreshToken : false,
+          uid: action.payload.localID || false,
+          token: action.payload.idToken || false,
+          refToken: action.payload.refreshToken || false,
+          error: action.payload.message || false,
         },
       };
     default:

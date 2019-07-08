@@ -19,7 +19,7 @@ const signUp = form => {
       return response.data;
     },
     error => {
-      console.log(error.data);
+      return error.response.data.error;
     }
   );
 
@@ -30,12 +30,29 @@ const signUp = form => {
 };
 
 const signIn = form => {
+  const request = axios({
+    method: 'POST',
+    url: SIGN_IN_URL,
+    data: {
+      email: form.email,
+      password: form.password,
+      returnSecureToken: true,
+    },
+    header: {
+      'Content-Type': 'application/json',
+    },
+  }).then(
+    response => {
+      return response.data;
+    },
+    error => {
+      return error.response.data.error;
+    }
+  );
+
   return {
     type: SIGN_IN,
-    payload: {
-      email: form.email,
-      token: 'kjwkdkdjwkedjkewjdk',
-    },
+    payload: request,
   };
 };
 

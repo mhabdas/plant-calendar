@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { signIn, signUp } from '../../store/actions/userActions';
 import Input from '../../utils/forms/input';
 import ValidationRules from '../../utils/forms/validationRules';
@@ -61,8 +60,8 @@ class AuthForm extends Component {
     hasErrors: false,
     form: {
       email: {
-        value: '',
-        valid: false,
+        value: 'marta.habdas@gmail.com',
+        valid: true,
         type: 'textinput',
         rules: {
           isRequired: true,
@@ -70,8 +69,8 @@ class AuthForm extends Component {
         },
       },
       password: {
-        value: '',
-        valid: false,
+        value: 'tatarak',
+        valid: true,
         type: 'textinput',
         rules: {
           isRequired: true,
@@ -79,8 +78,8 @@ class AuthForm extends Component {
         },
       },
       confirmedPassword: {
-        value: '',
-        valid: false,
+        value: 'tatarak',
+        valid: true,
         type: 'textinput',
         rules: {
           confirmPass: 'password',
