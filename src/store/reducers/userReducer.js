@@ -6,7 +6,7 @@ export default function(state = {}, action) {
       return {
         ...state,
         auth: {
-          uid: action.payload.localID || false,
+          uid: action.payload.localId || false,
           token: action.payload.idToken || false,
           refToken: action.payload.refreshToken || false,
           error: action.payload.message || false,
@@ -16,7 +16,7 @@ export default function(state = {}, action) {
       return {
         ...state,
         auth: {
-          uid: action.payload.localID || false,
+          uid: action.payload.localId || false,
           token: action.payload.idToken || false,
           refToken: action.payload.refreshToken || false,
           error: action.payload.message || false,

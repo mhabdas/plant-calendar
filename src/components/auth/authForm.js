@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { signIn, signUp } from '../../store/actions/userActions';
 import Input from '../../utils/forms/input';
 import ValidationRules from '../../utils/forms/validationRules';
+import { setTokens } from '../../utils/funcs';
 
 const styles = StyleSheet.create({
   form: {
@@ -148,6 +149,20 @@ class AuthForm extends Component {
     navigate('App');
   };
 
+  manageAccess = () => {
+    const {
+      user: { auth },
+    } = this.props;
+    if (!auth.uid) {
+      this.setState({ hasErrors: true });
+    } else {
+      setTokens(auth, () => {
+        this.setState({ hasErrors: false });
+        this.goNext();
+      });
+    }
+  };
+
   submitUser = () => {
     let isFormValid = true;
     const formToSubmit = {};
@@ -171,7 +186,16 @@ class AuthForm extends Component {
     });
 
     if (isFormValid) {
-      return type === 'Login' ? signInDispatch(formToSubmit) : signUpDispatch(formToSubmit);
+      return type === 'Login'
+        ? signInDispatch(formToSubmit).then(
+            () => {
+              this.manageAccess();
+            },
+            error => {
+              console.log(error);
+            }
+          )
+        : signUpDispatch(formToSubmit);
     }
     return this.setState({
       hasErrors: true,
@@ -185,8 +209,6 @@ class AuthForm extends Component {
       actionMode,
       type,
     } = this.state;
-
-    console.log(this.props.user);
 
     return (
       <View style={styles.form}>

@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import LogoComponent from './authLogo';
 import AuthForm from './authForm';
+import { getTokens } from '../../utils/funcs';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +21,12 @@ export default class AuthComponent extends Component {
   state = {
     loading: false,
   };
+
+  componentDidMount() {
+    getTokens(value => {
+      console.log(value);
+    });
+  }
 
   render() {
     const { loading } = this.state;

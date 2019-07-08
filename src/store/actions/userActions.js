@@ -43,6 +43,7 @@ const signIn = form => {
     },
   }).then(
     response => {
+      console.log(response.data);
       return response.data;
     },
     error => {
