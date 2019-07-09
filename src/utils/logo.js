@@ -1,26 +1,26 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 
-import LogoImage from '../../assets/images/logo.png';
+import LogoImage from '../assets/images/logo.png';
 
 const styles = StyleSheet.create({
   logo: {
-    marginTop: 50,
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   logoText: {
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'Chivo-Black',
-    color: '#244f44',
-    marginTop: 10,
+    color: '#F3FAEE',
+      marginLeft: 5,
   },
 });
 
 const LogoComponent = () => (
   <View style={styles.logo}>
-    <Image source={LogoImage} resizeMode="contain" style={{ width: 60, height: 60 }} />
+    <Image source={LogoImage} resizeMode="contain" style={{ width: 30, height: 30 }} />
     <Text style={styles.logoText}>Planted</Text>
   </View>
 );
