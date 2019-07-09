@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import LogoComponent from './authLogo';
 import AuthForm from './authForm';
-import { getTokens } from '../../utils/funcs';
+import { getTokens, setTokens } from '../../utils/funcs';
+import { autoSignIn } from '../../store/actions/userActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,22 +19,43 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AuthComponent extends Component {
+class AuthComponent extends Component {
   state = {
     loading: false,
   };
 
   componentDidMount() {
     getTokens(value => {
-      console.log(value);
+      if (value[0][1] === null) {
+        this.setState({ loading: false });
+      } else {
+        const { autoSignInDispatch } = this.props;
+        autoSignInDispatch(value[1][1]).then(
+          () => {
+            const { user } = this.props;
+            if (!user.auth.token) {
+              this.setState({ loading: false });
+            } else {
+              setTokens(user.auth, () => {
+                this.goNext();
+              });
+            }
+          },
+          error => {
+            return error;
+          }
+        );
+      }
     });
   }
 
+  goNext = () => {
+    const { navigation } = this.props;
+    navigation.navigate('App');
+  };
+
   render() {
     const { loading } = this.state;
-    const {
-      navigation: { navigate },
-    } = this.props;
     if (loading) {
       return (
         <View style={styles.loading}>
@@ -40,17 +63,37 @@ export default class AuthComponent extends Component {
         </View>
       );
     }
+
     return (
       <ScrollView style={styles.container}>
         <LogoComponent />
-        <AuthForm navigate={navigate} />
+        <AuthForm goNext={this.goNext} />
       </ScrollView>
     );
   }
 }
 
 AuthComponent.propTypes = {
+  autoSignInDispatch: PropTypes.func.isRequired,
+  user: PropTypes.objectOf(PropTypes.object).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    autoSignInDispatch: value => dispatch(autoSignIn(value)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthComponent);

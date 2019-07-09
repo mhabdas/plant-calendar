@@ -144,21 +144,17 @@ class AuthForm extends Component {
     });
   };
 
-  goNext = () => {
-    const { navigate } = this.props;
-    navigate('App');
-  };
-
   manageAccess = () => {
     const {
       user: { auth },
+      goNext,
     } = this.props;
     if (!auth.uid) {
       this.setState({ hasErrors: true });
     } else {
       setTokens(auth, () => {
         this.setState({ hasErrors: false });
-        this.goNext();
+        goNext();
       });
     }
   };
@@ -254,7 +250,7 @@ class AuthForm extends Component {
 }
 
 AuthForm.propTypes = {
-  navigate: PropTypes.func.isRequired,
+  goNext: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
