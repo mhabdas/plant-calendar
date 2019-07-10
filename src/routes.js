@@ -1,4 +1,4 @@
-import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {
   createStackNavigator,
@@ -7,6 +7,7 @@ import {
   createSwitchNavigator,
 } from 'react-navigation';
 
+import React from 'react';
 import SignIn from './components/auth';
 import Calendar from './components/calendar';
 import Dashboard from './components/dashboard';
@@ -57,8 +58,33 @@ const AppStack = createBottomTabNavigator(
       inactiveTintColor: '#244f44',
       showLabel: false,
       activeBackgroundColor: '#244f44',
-      inactiveBackgroundColor: '#F3FAEE',
+      inactiveBackgroundColor: '#244f44',
+      style: {
+        backgroundColor: '#244f44',
+        paddingTop: 16,
+      },
     },
+    initialRouteName: 'Dashboard',
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        switch (routeName) {
+          case 'Dashboard':
+            iconName = 'md-apps';
+            break;
+          case 'Calendar':
+            iconName = 'md-calendar';
+            break;
+          case 'Tasks':
+            iconName = 'md-list-box';
+            break;
+          default:
+            iconName = undefined;
+        }
+        return <Ionicons name={iconName} size={30} color="#F3FAEE" />;
+      },
+    }),
   }
 );
 
