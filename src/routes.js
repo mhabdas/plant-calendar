@@ -31,11 +31,36 @@ const DashboardStack = createStackNavigator(
   headerConf
 );
 
-const AppStack = createBottomTabNavigator({
-  Dashboard: DashboardStack,
-  Calendar,
-  Tasks,
-});
+const CalendarStack = createStackNavigator(
+  {
+    Calendar,
+  },
+  headerConf
+);
+
+const TasksStack = createStackNavigator(
+  {
+    Tasks,
+  },
+  headerConf
+);
+
+const AppStack = createBottomTabNavigator(
+  {
+    Dashboard: DashboardStack,
+    Calendar: CalendarStack,
+    Tasks: TasksStack,
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: '#F3FAEE',
+      inactiveTintColor: '#244f44',
+      showLabel: false,
+      activeBackgroundColor: '#244f44',
+      inactiveBackgroundColor: '#F3FAEE',
+    },
+  }
+);
 
 const AuthStack = createStackNavigator(
   {

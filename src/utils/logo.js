@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Chivo-Black',
     color: '#F3FAEE',
-      marginLeft: 5,
+    marginLeft: 5,
   },
 });
 
