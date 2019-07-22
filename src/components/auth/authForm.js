@@ -251,6 +251,13 @@ class AuthForm extends Component {
 
 AuthForm.propTypes = {
   goNext: PropTypes.func.isRequired,
+  signUpDispatch: PropTypes.func.isRequired,
+  signInDispatch: PropTypes.func.isRequired,
+  user: PropTypes.objectOf(PropTypes.object),
+};
+
+AuthForm.defaultProps = {
+  user: {},
 };
 
 const mapStateToProps = state => {

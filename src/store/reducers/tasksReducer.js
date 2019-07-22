@@ -5,7 +5,7 @@ export default function(state = {}, action) {
     case GET_TASKS:
       return {
         ...state,
-        tasks: action.tasks,
+        tasks: action.payload,
       };
     default:
       return state;
