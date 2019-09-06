@@ -53,7 +53,9 @@ class Tasks extends Component {
   render() {
     const { tasks } = this.props;
     return (
-      <ScrollView contentContainerStyle={styles.container}>{this.renderTask(tasks)}</ScrollView>
+      <ScrollView contentContainerStyle={styles.container}>
+        {this.renderTask(tasks)}
+      </ScrollView>
     );
   }
 }
