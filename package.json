@@ -13,7 +13,7 @@
     "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-utils": "^1.4.3",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.19",
     "lodash.merge": "^4.6.2",
     "luxon": "^1.16.0",
     "mem": "^5.1.1",
